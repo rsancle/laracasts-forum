@@ -25,5 +25,19 @@
                 @endforeach
             </div>
         </div>
+
+        @auth
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <form method="POST" action="{{ route('addReply', $thread) }}">
+                        @csrf
+                        <div class="form-group">
+                            <textarea name="body" id="body" rows="5" class="form-control" placeholder="Have something to say?"></textarea>
+                            <button type="submit">Post</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        @endauth
     </div>
 @endsection

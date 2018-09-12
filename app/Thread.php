@@ -6,9 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Thread extends Model
 {
+    protected $guarded = [];
+
     public function path()
     {
         return route('showThread', [$this->id]);
+    }
+
+    public function addReply($reply)
+    {
+        $this->replies()->create($reply);
     }
 
     public function replies()
