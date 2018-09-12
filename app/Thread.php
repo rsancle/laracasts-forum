@@ -10,7 +10,7 @@ class Thread extends Model
 
     public function path()
     {
-        return route('showThread', [$this->id]);
+        return route('threads.show', [$this->id]);
     }
 
     public function addReply($reply)

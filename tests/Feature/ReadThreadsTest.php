@@ -20,14 +20,15 @@ class ReadThreadsTest extends TestCase
     /** @test */
     public function an_user_can_browse_threads()
     {
-        $this->get('/threads')
+        $this->get(route('threads.index'))
+            ->assertStatus(200)
             ->assertSee($this->thread->title);
     }
 
     /** @test */
     public function an_user_read_a_single_thread()
     {
-        $this->get('/threads/' . $this->thread->id)
+        $this->get($this->thread->path())
             ->assertSee($this->thread->title);
     }
 
@@ -35,7 +36,7 @@ class ReadThreadsTest extends TestCase
     public function an_user_read_associated_replies_with_a_thread()
     {
         $reply = factory('App\Reply')->create(['thread_id' => $this->thread->id]);
-        $this->get('/threads/' . $this->thread->id)
+        $this->get($this->thread->path())
             ->assertSee($reply->body);
     }
 }
