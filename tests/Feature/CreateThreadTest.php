@@ -21,6 +21,15 @@ class CreateThreadTest extends TestCase
     }
 
     /** @test */
+    public function guest_cannot_see_create_threads()
+    {
+
+        $this->withExceptionHandling()
+            ->get(route('threads.create'))
+            ->assertRedirect(route('login'));
+    }
+
+    /** @test */
     public function an_authenticated_user_can_create_threads()
     {
         $this->actingAs(factory('App\User')->create());
