@@ -8,10 +8,33 @@ class Thread extends Model
 {
     protected $guarded = [];
 
+    public static function rules(){
+       return [
+            'title' => 'required | string'
+        ];
+    }
+
+    public static function validate($request)
+    {
+        $request->validate(self::rules());
+    }
+
     public function path()
     {
-        return route('threads.show', [$this->id]);
+        return route('threads.show', ['channel' => $this->channel->slug, 'thread' => $this]);
     }
+
+    public static function store($thread)
+    {
+        return route('threads.store', $thread);
+    }
+
+    public function storePath()
+    {
+        return self::store($this);
+    }
+
+
 
     public function addReply($reply)
     {

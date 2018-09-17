@@ -16,7 +16,7 @@ class ParticipateInForumTest extends TestCase
     {
         $thread = factory('App\Thread')->create();
         $this->withExceptionHandling()
-            ->post(route('replies.store', $thread), [])
+            ->post(route('replies.store',['channel' => $thread->channel->id, 'thread' => $thread]), [])
             ->assertRedirect(route('login'));
     }
 
@@ -27,10 +27,9 @@ class ParticipateInForumTest extends TestCase
         $this->be($user);
 
         $thread = factory('App\Thread')->create();
-        $reply = factory('App\Reply')->create();
-        $this->post(route('replies.store', $thread), $reply->toArray());
-
-        $this->get(route('threads.show', $thread))
+        $reply = factory('App\Reply')->make();
+        $this->post($reply->storePath($thread), $reply->toArray());
+        $this->get($thread->path())
             ->assertSee($reply->body);
 
     }

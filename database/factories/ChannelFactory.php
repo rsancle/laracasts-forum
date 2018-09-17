@@ -1,8 +1,9 @@
 <?php
 
 use Faker\Generator as Faker;
+use App\Channel;
 
-$factory->define(App\Channel::class, function (Faker $faker) {
+$factory->define(Channel::class, function (Faker $faker) {
     $name = $faker->word;
     return [
         'name' => $name,

@@ -36,10 +36,39 @@ class CreateThreadTest extends TestCase
 
         $thread = factory('App\Thread')->make();
 
-        $this->post(route('threads.store', $thread->toArray()));
+        $response = $this->post($thread->storePath(), $thread->toArray());
 
-        $this->get($thread->path())
+        $this->get($response->headers->get('Location'))
             ->assertSee($thread->title)
             ->assertSee($thread->body);
+    }
+
+    /** @test */
+    function a_thread_requires_a_title()
+    {
+        $this->publishThread(['title' => null])
+            ->assertSessionHasErrors('title');
+    }
+
+    /** @test */
+    function a_thread_requires_a_body()
+    {
+        $this->publishThread(['body' => null])
+            ->assertSessionHasErrors('body');
+    }
+    /** @test */
+    function a_thread_requires_a_valid_channel()
+    {
+        factory('App\Channel', 2)->create();
+        $this->publishThread(['channel_id' => null])
+            ->assertSessionHasErrors('channel_id');
+        $this->publishThread(['channel_id' => 999])
+            ->assertSessionHasErrors('channel_id');
+    }
+    protected function publishThread($overrides = [])
+    {
+        $this->actingAs(factory('App\User')->create());
+        $thread = factory('App\Thread')->make($overrides);
+        return $this->post('/threads', $thread->toArray());
     }
 }
