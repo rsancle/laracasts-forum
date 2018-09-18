@@ -65,6 +65,7 @@ class CreateThreadTest extends TestCase
         $this->publishThread(['channel_id' => 999])
             ->assertSessionHasErrors('channel_id');
     }
+
     protected function publishThread($overrides = [])
     {
         $this->actingAs(factory('App\User')->create());
