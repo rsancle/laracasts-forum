@@ -8,7 +8,17 @@ class Channel extends Model
 {
     public function showThreadsPath()
     {
-        return route('channel.index', ['channel' => $this->slug]);
+        return route('threads.index', ['channel' => $this]);
+    }
+
+    /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'slug';
     }
 
     public function threads()

@@ -30,10 +30,24 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('threads.index') }}">{{ __('All Threads') }}</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                {{ __('Channels') }}
+                            </a>
 
+                            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                @foreach(App\Channel::all() as $channel)
+                                    <a href="{{ route($channel->showThreadsPath()) }}">{{ $channel->name }}</a>
+                                @endforeach
+
+                            </ul>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
